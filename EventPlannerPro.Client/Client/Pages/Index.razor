@@ -1,0 +1,28 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h1>Events</h1>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var event in events)
+        {
+            <li>@event.Title - @event.Date.ToString("yyyy-MM-dd") - @event.Location</li>
+        }
+    </ul>
+}
+
+@code {
+    private Event[] events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await Http.GetFromJsonAsync<Event[]>("Events");
+    }
+}
+c
